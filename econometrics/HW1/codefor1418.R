@@ -11,6 +11,8 @@ sum(c)
 
 #---(a)
 
+
+
 library(openxlsx)
 library(estimatr)
 library(lmtest)
@@ -19,7 +21,7 @@ library(plm)
 library(stats)
 options(scipen=3)
 
-data <- read.xlsx("C:/syumi/Rproject/R_project/econometrics/HW1/FRED-QD/FRED-QD.xlsx")
+data <- read.xlsx("FRED-QD/FRED-QD.xlsx")
 
 pnfix <- data$pnfix
 p_len=length(pnfix)
@@ -50,6 +52,7 @@ grrData <- data.frame(ql0, ql1, ql2, ql3, ql4)
 #pnfix_l3 <- pnfix[2:(p_len-3)]
 #pnfix_l4 <- pnfix[1:(p_len-4)]
 
+ql0
 
 #lag4data <- data.frame(pnfix_l0, pnfix_l1, pnfix_l2, pnfix_l3, pnfix_l4)
 
@@ -88,17 +91,19 @@ plot(c(0:10), irf[4:14], type="l")
 
 Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
 
-FRED_MD <- read.xlsx("C:/syumi/Rproject/R_project/econometrics/HW1/FRED-MD/FRED-MD.xlsx")
+FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
 
 data1612 <- FRED_MD[Indexes]
 data1612["logrpi"] <- log(data1612["rpi"])
 
-for (index in Indexes){
-  plot(data1612[[index]], main=index)
+newIndexes=c("logrpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+
+par(mfrow=c(1,1))
+for (index in newIndexes){
+  plot(data1612[[index]], type="l", ylab=index)
 }
 
-e <- data1612$logrpi
-f <- data1612[["logrpi"]]
-
-plot(f)
-
+for (index in newIndexes){
+  dt = data1612[[index]]
+  ar_result = ar(dt, method="ols")
+}
