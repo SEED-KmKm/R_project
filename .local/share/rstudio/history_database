@@ -1,0 +1,339 @@
+1718940204600:c=c(1,2,3)
+1718940205245:d <- c-3
+1718940205405:e <- rep(0,9)
+1718940205555:sum(c)
+1718940205911:1/3*5
+1718940207309:library(openxlsx)
+1718940207501:library(estimatr)
+1718940207649:library(lmtest)
+1718940207750:library(sandwich)
+1718940207833:library(plm)
+1718940207930:library(stats)
+1718940208036:options(scipen=3)
+1718940208086:data <- read.xlsx("C:/syumi/Rproject/R_project/econometrics/HW1/FRED-QD/FRED-QD.xlsx")
+1718940208175:pnfix <- data$pnfix
+1718940208244:p_len=length(pnfix)
+1718940208341:pnfix_lag1 <- pnfix[1:p_len-1]
+1718940208420:pnfix_lag0 <- pnfix[2:p_len]
+1718940208506:length(pnfix)
+1718940208584:q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
+1718940229237:data <- read.xlsx("/FRED-QD/FRED-QD.xlsx")
+1718940236140:library(openxlsx)
+1718940239069:library(estimatr)
+1718940239879:library(lmtest)
+1718940240312:library(sandwich)
+1718940241527:library(plm)
+1718940242404:library(stats)
+1718940354366:library(openxlsx)
+1718940354730:library(estimatr)
+1718940355147:library(lmtest)
+1718940355289:library(sandwich)
+1718940355400:library(plm)
+1718940358617:library(stats)
+1718940358986:options(scipen=3)
+1718940359360:data <- read.xlsx("/FRED-QD/FRED-QD.xlsx")
+1718940457880:setwd(/econometrics/HW1)
+1718940461180:setwd(econometrics/HW1)
+1718940465733:setwd(Home/econometrics/HW1)
+1718940481980:setwd("~/econometrics/HW1")
+1718940487998:data <- read.xlsx("/FRED-QD/FRED-QD.xlsx")
+1718940497110:data <- read.xlsx("FRED-QD/FRED-QD.xlsx")
+1718940498828:pnfix <- data$pnfix
+1718940499270:p_len=length(pnfix)
+1718940499412:pnfix_lag1 <- pnfix[1:p_len-1]
+1718940499635:pnfix_lag0 <- pnfix[2:p_len]
+1718940499825:length(pnfix)
+1718940500057:q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
+1718940500159:q_len=length(q_grow)
+1718940500344:q_grow
+1718940500514:ql0=q_grow[5:q_len]
+1718940500697:ql1=q_grow[4:(q_len-1)]
+1718940500838:ql2=q_grow[3:(q_len-2)]
+1718940501062:ql3=q_grow[2:(q_len-3)]
+1718940501171:ql4=q_grow[1:(q_len-4)]
+1718940501358:grrData <- data.frame(ql0, ql1, ql2, ql3, ql4)
+1718940501497:result <- lm_robust(ql0~ql1+ql2+ql3+ql4, grrData)
+1718940501679:summary(result)
+1718940501814:(c)
+1718940501976:rlt_for_NW<-lm(ql0~ql1+ql2+ql3+ql4, grrData)
+1718940502138:NW <- coeftest(result, vcov = NeweyWest(rlt_for_NW, lag = 5))
+1718940502309:NW
+1718940502457:(d)
+1718940502601:(e)
+1718940502756:irf=rep(0,14)
+1718940502934:irf[4]=1
+1718940503111:for (i in 5:14){
+1718940503112:i
+1718940503113:irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
+1718940503114:}
+1718940503223:irf
+1718940503389:plot(c(0:10), irf[4:14], type="l")
+1718940503584:Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+1718940503687:FRED_MD <- read.xlsx("C:/syumi/Rproject/R_project/econometrics/HW1/FRED-MD/FRED-MD.xlsx")
+1718940503845:data1612 <- FRED_MD[Indexes]
+1718940504015:data1612["logrpi"] <- log(data1612["rpi"])
+1718940504190:for (index in Indexes){
+1718940504190:plot(data1612[[index]], main=index)
+1718940504191:}
+1718940504364:e <- data1612$logrpi
+1718940722529:ql0
+1718945896095:Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+1718945897057:FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
+1718945898120:data1612 <- FRED_MD[Indexes]
+1718945899363:data1612["logrpi"] <- log(data1612["rpi"])
+1718945902913:par(mfrow=c(3,3))
+1718945904427:for (index in Indexes){
+1718945904427:plot(data1612[[index]], type="l")
+1718945904427:}
+1718945941956:par(mfrow=c(3,3))
+1718945942591:for (index in Indexes){
+1718945942592:plot(data1612[[index]])
+1718945942593:}
+1718945968271:plot(data1612[["indpro"]], type="l")
+1718945995058:par(mfrow=c(1,1))
+1718946001379:plot(data1612[["indpro"]], type="l")
+1718946107243:plot(data1612[[index]], type="l")
+1718946377643:par(mfrow=c(3,3))
+1718946378266:for (index in Indexes){
+1718946378267:plot(data1612[[index]])
+1718946378267:}
+1718946399406:attach(mtcars)
+1718946399915:par(mfrow=c(3,3))
+1718946400496:for (index in Indexes){
+1718946400496:plot(data1612[[index]])
+1718946400497:}
+1718946643347:par(mfrow=c(2,2))
+1718946644467:for (index in Indexes){
+1718946644469:plot(data1612[[index]])
+1718946644469:}
+1718946657676:par(mfrow=c(2,2))
+1718946658317:for (index in Indexes){
+1718946658317:plot(data1612[[index]], type="l")
+1718946658318:}
+1718946668287:par(mfrow=c(3,3))
+1718946669019:for (index in Indexes){
+1718946669019:plot(data1612[[index]], type="l")
+1718946669020:}
+1718946679002:par(mfrow=c(2,2))
+1718946680232:for (index in Indexes){
+1718946680233:plot(data1612[[index]], type="l")
+1718946680233:}
+1718946919946:par(mfrow=c(2,2))
+1718946920949:for (index in Indexes){
+1718946920950:plot(data1612[[index]], type="l", ylab=index)
+1718946920950:}
+1718947058422:for (index in Indexes){
+1718947058423:plot(data1612[[index]], type="l", ylab=index)
+1718947058423:}
+1718947073021:par(mfrow=c(1,1))
+1718947073784:for (index in Indexes){
+1718947073785:plot(data1612[[index]], type="l", ylab=index)
+1718947073785:}
+1718947245855:Indexes=c("logrpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+1718947246325:FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
+1718947246826:data1612 <- FRED_MD[Indexes]
+1718947247154:data1612["logrpi"] <- log(data1612["rpi"])
+1718947247501:par(mfrow=c(1,1))
+1718947247980:for (index in Indexes){
+1718947247981:plot(data1612[[index]], type="l", ylab=index)
+1718947247981:}
+1718947290481:Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+1718947290892:FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
+1718947291325:data1612 <- FRED_MD[Indexes]
+1718947291756:data1612["logrpi"] <- log(data1612["rpi"])
+1718947292281:newIndexes=c("logrpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+1718947292954:par(mfrow=c(1,1))
+1718947293578:for (index in newIndexes){
+1718947293579:plot(data1612[[index]], type="l", ylab=index)
+1718947293579:}
+1718947510260:for (index in newIndexes){
+1718947510261:dt = data1612[[index]]
+1718947510261:ar_result = ar(dt, method="ols")
+1718947510262:}
+1718948414881:for (index in newIndexes){
+1718948414881:dt = data1612[[index]]
+1718948414882:ar_result = ar(dt, method="ols")
+1718948414882:order = ar_result$order
+1718948414882:adf.test(dt, nlag=order)
+1718948414882:}
+1718948423135:library(stats)
+1718948429683:for (index in newIndexes){
+1718948429684:dt = data1612[[index]]
+1718948429684:ar_result = ar(dt, method="ols")
+1718948429685:order = ar_result$order
+1718948429685:adf.test(dt, nlag=order)
+1718948429686:}
+1718948473467:library(aTSA)
+1718948481287:for (index in newIndexes){
+1718948481287:dt = data1612[[index]]
+1718948481288:ar_result = ar(dt, method="ols")
+1718948481289:order = ar_result$order
+1718948481289:adf.test(dt, nlag=order)
+1718948481290:}
+1718948648548:sprintf("-------------"+index+"--------------")
+1718948659805:sprintf("-------------", index, "--------------")
+1718948745707:sprintf("-------------%s-------------", index)
+1718948782020:sprintf("-----order=%f------", order)
+1718948788727:sprintf("-----order=%d------", order)
+1718948796401:sprintf("order=%d", order)
+1718948801940:for (index in newIndexes){
+1718948801941:sprintf("-------------%s--------------", index)
+1718948801942:dt = data1612[[index]]
+1718948801942:ar_result = ar(dt, method="ols")
+1718948801943:order = ar_result$order
+1718948801944:sprintf("order=%d", order)
+1718948801945:adf.test(dt, nlag=order)
+1718948801946:}
+1718948850657:for (index in newIndexes){
+1718948850658:sprintf("-------------%s--------------", index)
+1718948850658:dt = data1612[[index]]
+1718948850658:ar_result = ar(dt, method="ols")
+1718948850658:order = ar_result$order
+1718948850659:sprintf("order=%d", order)
+1718948850659:adf.test(dt, nlag=order)
+1718948850659:}
+1718948889047:sprintf("order=%d", order)
+1718960750936:library(openxlsx)
+1718960752372:library(estimatr)
+1718960752650:library(lmtest)
+1718960752946:library(sandwich)
+1718960753246:library(plm)
+1718960753282:library(stats)
+1718960753542:library(aTSA)
+1718960754054:options(scipen=3)
+1718961445996:for (index in newIndexes){
+1718961446006:sprintf("-------------%s--------------", index)
+1718961446006:dt = data1612[[index]]
+1718961446006:ar_result = ar(dt, method="ols")
+1718961446006:order = ar_result$order
+1718961446007:print("order=%d", order)
+1718961446007:adf.test(dt, nlag=order)
+1718961446007:}
+1718961455957:printf("order=%d", order)
+1718961463483:sprintf("order=%d", order)
+1718961468163:for (index in newIndexes){
+1718961468164:sprintf("-------------%s--------------", index)
+1718961468164:dt = data1612[[index]]
+1718961468165:ar_result = ar(dt, method="ols")
+1718961468165:order = ar_result$order
+1718961468166:sprintf("order=%d", order)
+1718961468167:adf.test(dt, nlag=order)
+1718961468167:}
+1718961484440:sprintf("")
+1718961487774:for (index in newIndexes){
+1718961487775:sprintf("-------------%s--------------", index)
+1718961487776:sprintf("")
+1718961487777:dt = data1612[[index]]
+1718961487777:ar_result = ar(dt, method="ols")
+1718961487778:order = ar_result$order
+1718961487778:sprintf("order=%d", order)
+1718961487779:adf.test(dt, nlag=order)
+1718961487779:}
+1718961639553:for (index in newIndexes){
+1718961639553:print(sprintf("-------------%s--------------", index))
+1718961639554:sprintf("")
+1718961639555:dt = data1612[[index]]
+1718961639555:ar_result = ar(dt, method="ols")
+1718961639556:order = ar_result$order
+1718961639556:print(sprintf("order=%d", order))
+1718961639557:adf.test(dt, nlag=order)
+1718961639558:}
+1718964794548:for (index in newIndexes){
+1718964794551:print(sprintf("-------------%s--------------", index))
+1718964794551:sprintf("")
+1718964794551:dt = data1612[[index]]
+1718964794551:ar_result = ar(dt, method="ols")
+1718964794552:order = ar_result$order
+1718964794552:print(sprintf("order=%d", order+1))
+1718964794552:adf.test(dt, nlag=order)
+1718964794553:}
+1718964866808:for (index in newIndexes){
+1718964866808:print(sprintf("-------------%s--------------", index))
+1718964866808:sprintf("")
+1718964866809:dt = data1612[[index]]
+1718964866809:ar_result = ar(dt, method="ols")
+1718964866809:order = ar_result$order
+1718964866809:print(sprintf("order=%d", order))
+1718964866810:adf.test(dt, nlag=(order+1))
+1718964866810:}
+1718966612482:data <- read.xlsx("FRED-QD/FRED-QD.xlsx")
+1718966612943:pnfix <- data$pnfix
+1718966613601:p_len=length(pnfix)
+1718966614108:pnfix_lag1 <- pnfix[1:p_len-1]
+1718966614462:pnfix_lag0 <- pnfix[2:p_len]
+1718966615044:length(pnfix)
+1718966615782:q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
+1718966616501:q_len=length(q_grow)
+1718966617198:plot(q_grow, ylab = "quartely growth rate")
+1718966629441:plot(q_grow, ylab = "quartely growth rate", type="l")
+1718967171218:ql0=q_grow[5:q_len]
+1718967171420:ql1=q_grow[4:(q_len-1)]
+1718967171738:ql2=q_grow[3:(q_len-2)]
+1718967171984:ql3=q_grow[2:(q_len-3)]
+1718967172145:ql4=q_grow[1:(q_len-4)]
+1718967172622:grrData <- data.frame(ql0, ql1, ql2, ql3, ql4)
+1718967173206:ql0
+1718967173792:result <- lm_robust(ql0~ql1+ql2+ql3+ql4, grrData)
+1718967174836:summary(result)
+1718970944973:rlt_for_NW<-lm(ql0~ql1+ql2+ql3+ql4, grrData)
+1718970945739:NW <- coeftest(result, vcov = NeweyWest(rlt_for_NW, lag = 5))
+1718970947004:NW
+1718971625637:NW
+1718971626230:(d)
+1718971629165:(e)
+1718971629840:irf=rep(0,14)
+1718971630766:irf[4]=1
+1718971631501:for (i in 5:14){
+1718971631501:i
+1718971631501:irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
+1718971631502:}
+1718971632511:irf
+1718971633351:plot(c(0:10), irf[4:14], type="l")
+1718971807688:plot(c(0:10), irf[4:14], type="l", ylab="irf")
+1718971853747:plot(c(0:10), irf[4:14], type="l", ylab="irf", xlab="")
+1718971868348:plot(c(0:10), irf[4:14], type="l", ylab="irf", xlab="Impulse Response Function")
+1718971874642:plot(c(0:10), irf[4:14], type="l", ylab="irf", xlab="Impulse Response")
+1718972234652:irf=rep(0,14)
+1718972235274:irf[4]=1
+1718972235820:for (i in 5:14){
+1718972235820:i
+1718972235820:irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
+1718972235820:}
+1718972236406:irf
+1718972236991:plot(c(1:10), irf[5:14], type="l", ylab="irf", xlab="Impulse Response")
+1719923946789:data <- read.xlsx("PSS2017/PSS2017.xlsx")
+1719923952091:library(openxlsx)
+1719923952659:library(estimatr)
+1719923952793:library(lmtest)
+1719923952982:library(sandwich)
+1719923953097:library(plm)
+1719923953522:library(stats)
+1719923953522:library(aTSA)
+1719923953551:options(scipen=3)
+1719923954285:data <- read.xlsx("PSS2017/PSS2017.xlsx")
+1719923996501:data <- read.xlsx("PSS2017/PSS2017.xlsx")
+1719924063963:setwd(Home/econometrics/HW2)
+1719924068378:setwd(~/econometrics/HW2)
+1719924076774:setwd(/~/econometrics/HW2)
+1719924102750:setwd("~/econometrics/HW2")
+1719924106988:data <- read.xlsx("PSS2017/PSS2017.xlsx")
+1719924176699:alt_nls <- nls(
+1719924176699:log(EG_total) ~ beta + (v / rho) * log(alpha * EC_c_alt^rho + (1 - alpha) * EC_d_alt^rho),
+1719924176699:start = list(rho = 0.3, v = 1.0, alpha = 0.3, beta = 1.6),
+1719924176700:trace = TRUE,
+1719924176700:data = data
+1719924176700:)
+1719924310536:data$EC_c_alt_nm <- as.numeric(data$EC_c_alt)
+1719924321320:View(data)
+1719924350200:data$EC_d_alt_nm <- as.numeric(data$EC_d_alt)
+1719924350886:data$EG_total_nm <- as.numeric(data$EG_total)
+1719924410973:alt_nls <- nls(
+1719924410973:log(EG_total_nm) ~ beta + (v / rho) * log(alpha * EC_c_alt_nm^rho + (1 - alpha) * EC_d_alt_nm^rho),
+1719924410973:start = list(rho = 0.3, v = 1.0, alpha = 0.3, beta = 1.6),
+1719924410973:trace = TRUE,
+1719924410974:data = data
+1719924410974:)
+1719924533845:result <- alt_nls$convInfo
+1719924555197:coef(alt_nls)
+1719924739561:curve((1/4)*x^4, -4,4)
+1719927803085:View(data)

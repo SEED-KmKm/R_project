@@ -19,6 +19,7 @@ library(lmtest)
 library(sandwich)
 library(plm)
 library(stats)
+library(aTSA)
 options(scipen=3)
 
 data <- read.xlsx("FRED-QD/FRED-QD.xlsx")
@@ -33,7 +34,7 @@ length(pnfix)
 
 q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
 q_len=length(q_grow)
-q_grow
+plot(q_grow, ylab = "quartely growth rate", type="l")
 
 
 #---(b)
@@ -82,7 +83,7 @@ for (i in 5:14){
   irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
 }
 irf
-plot(c(0:10), irf[4:14], type="l")
+plot(c(1:10), irf[5:14], type="l", ylab="irf", xlab="Impulse Response")
 
 
 
@@ -104,6 +105,12 @@ for (index in newIndexes){
 }
 
 for (index in newIndexes){
+  print(sprintf("-------------%s--------------", index))
+  sprintf("")
   dt = data1612[[index]]
   ar_result = ar(dt, method="ols")
+  order = ar_result$order
+  print(sprintf("order=%d", order))
+  
+  adf.test(dt, nlag=(order+1))
 }

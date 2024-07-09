@@ -1,0 +1,339 @@
+c=c(1,2,3)
+d <- c-3
+e <- rep(0,9)
+sum(c)
+1/3*5
+library(openxlsx)
+library(estimatr)
+library(lmtest)
+library(sandwich)
+library(plm)
+library(stats)
+options(scipen=3)
+data <- read.xlsx("C:/syumi/Rproject/R_project/econometrics/HW1/FRED-QD/FRED-QD.xlsx")
+pnfix <- data$pnfix
+p_len=length(pnfix)
+pnfix_lag1 <- pnfix[1:p_len-1]
+pnfix_lag0 <- pnfix[2:p_len]
+length(pnfix)
+q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
+data <- read.xlsx("/FRED-QD/FRED-QD.xlsx")
+library(openxlsx)
+library(estimatr)
+library(lmtest)
+library(sandwich)
+library(plm)
+library(stats)
+library(openxlsx)
+library(estimatr)
+library(lmtest)
+library(sandwich)
+library(plm)
+library(stats)
+options(scipen=3)
+data <- read.xlsx("/FRED-QD/FRED-QD.xlsx")
+setwd(/econometrics/HW1)
+setwd(econometrics/HW1)
+setwd(Home/econometrics/HW1)
+setwd("~/econometrics/HW1")
+data <- read.xlsx("/FRED-QD/FRED-QD.xlsx")
+data <- read.xlsx("FRED-QD/FRED-QD.xlsx")
+pnfix <- data$pnfix
+p_len=length(pnfix)
+pnfix_lag1 <- pnfix[1:p_len-1]
+pnfix_lag0 <- pnfix[2:p_len]
+length(pnfix)
+q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
+q_len=length(q_grow)
+q_grow
+ql0=q_grow[5:q_len]
+ql1=q_grow[4:(q_len-1)]
+ql2=q_grow[3:(q_len-2)]
+ql3=q_grow[2:(q_len-3)]
+ql4=q_grow[1:(q_len-4)]
+grrData <- data.frame(ql0, ql1, ql2, ql3, ql4)
+result <- lm_robust(ql0~ql1+ql2+ql3+ql4, grrData)
+summary(result)
+(c)
+rlt_for_NW<-lm(ql0~ql1+ql2+ql3+ql4, grrData)
+NW <- coeftest(result, vcov = NeweyWest(rlt_for_NW, lag = 5))
+NW
+(d)
+(e)
+irf=rep(0,14)
+irf[4]=1
+for (i in 5:14){
+i
+irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
+}
+irf
+plot(c(0:10), irf[4:14], type="l")
+Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+FRED_MD <- read.xlsx("C:/syumi/Rproject/R_project/econometrics/HW1/FRED-MD/FRED-MD.xlsx")
+data1612 <- FRED_MD[Indexes]
+data1612["logrpi"] <- log(data1612["rpi"])
+for (index in Indexes){
+plot(data1612[[index]], main=index)
+}
+e <- data1612$logrpi
+ql0
+Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
+data1612 <- FRED_MD[Indexes]
+data1612["logrpi"] <- log(data1612["rpi"])
+par(mfrow=c(3,3))
+for (index in Indexes){
+plot(data1612[[index]], type="l")
+}
+par(mfrow=c(3,3))
+for (index in Indexes){
+plot(data1612[[index]])
+}
+plot(data1612[["indpro"]], type="l")
+par(mfrow=c(1,1))
+plot(data1612[["indpro"]], type="l")
+plot(data1612[[index]], type="l")
+par(mfrow=c(3,3))
+for (index in Indexes){
+plot(data1612[[index]])
+}
+attach(mtcars)
+par(mfrow=c(3,3))
+for (index in Indexes){
+plot(data1612[[index]])
+}
+par(mfrow=c(2,2))
+for (index in Indexes){
+plot(data1612[[index]])
+}
+par(mfrow=c(2,2))
+for (index in Indexes){
+plot(data1612[[index]], type="l")
+}
+par(mfrow=c(3,3))
+for (index in Indexes){
+plot(data1612[[index]], type="l")
+}
+par(mfrow=c(2,2))
+for (index in Indexes){
+plot(data1612[[index]], type="l")
+}
+par(mfrow=c(2,2))
+for (index in Indexes){
+plot(data1612[[index]], type="l", ylab=index)
+}
+for (index in Indexes){
+plot(data1612[[index]], type="l", ylab=index)
+}
+par(mfrow=c(1,1))
+for (index in Indexes){
+plot(data1612[[index]], type="l", ylab=index)
+}
+Indexes=c("logrpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
+data1612 <- FRED_MD[Indexes]
+data1612["logrpi"] <- log(data1612["rpi"])
+par(mfrow=c(1,1))
+for (index in Indexes){
+plot(data1612[[index]], type="l", ylab=index)
+}
+Indexes=c("rpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+FRED_MD <- read.xlsx("FRED-MD/FRED-MD.xlsx")
+data1612 <- FRED_MD[Indexes]
+data1612["logrpi"] <- log(data1612["rpi"])
+newIndexes=c("logrpi", "indpro", "houst", "hwi", "clf16ov", "claimsx", "ipfuels")
+par(mfrow=c(1,1))
+for (index in newIndexes){
+plot(data1612[[index]], type="l", ylab=index)
+}
+for (index in newIndexes){
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+}
+for (index in newIndexes){
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+adf.test(dt, nlag=order)
+}
+library(stats)
+for (index in newIndexes){
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+adf.test(dt, nlag=order)
+}
+library(aTSA)
+for (index in newIndexes){
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+adf.test(dt, nlag=order)
+}
+sprintf("-------------"+index+"--------------")
+sprintf("-------------", index, "--------------")
+sprintf("-------------%s-------------", index)
+sprintf("-----order=%f------", order)
+sprintf("-----order=%d------", order)
+sprintf("order=%d", order)
+for (index in newIndexes){
+sprintf("-------------%s--------------", index)
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+sprintf("order=%d", order)
+adf.test(dt, nlag=order)
+}
+for (index in newIndexes){
+sprintf("-------------%s--------------", index)
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+sprintf("order=%d", order)
+adf.test(dt, nlag=order)
+}
+sprintf("order=%d", order)
+library(openxlsx)
+library(estimatr)
+library(lmtest)
+library(sandwich)
+library(plm)
+library(stats)
+library(aTSA)
+options(scipen=3)
+for (index in newIndexes){
+sprintf("-------------%s--------------", index)
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+print("order=%d", order)
+adf.test(dt, nlag=order)
+}
+printf("order=%d", order)
+sprintf("order=%d", order)
+for (index in newIndexes){
+sprintf("-------------%s--------------", index)
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+sprintf("order=%d", order)
+adf.test(dt, nlag=order)
+}
+sprintf("")
+for (index in newIndexes){
+sprintf("-------------%s--------------", index)
+sprintf("")
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+sprintf("order=%d", order)
+adf.test(dt, nlag=order)
+}
+for (index in newIndexes){
+print(sprintf("-------------%s--------------", index))
+sprintf("")
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+print(sprintf("order=%d", order))
+adf.test(dt, nlag=order)
+}
+for (index in newIndexes){
+print(sprintf("-------------%s--------------", index))
+sprintf("")
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+print(sprintf("order=%d", order+1))
+adf.test(dt, nlag=order)
+}
+for (index in newIndexes){
+print(sprintf("-------------%s--------------", index))
+sprintf("")
+dt = data1612[[index]]
+ar_result = ar(dt, method="ols")
+order = ar_result$order
+print(sprintf("order=%d", order))
+adf.test(dt, nlag=(order+1))
+}
+data <- read.xlsx("FRED-QD/FRED-QD.xlsx")
+pnfix <- data$pnfix
+p_len=length(pnfix)
+pnfix_lag1 <- pnfix[1:p_len-1]
+pnfix_lag0 <- pnfix[2:p_len]
+length(pnfix)
+q_grow=(pnfix_lag0-pnfix_lag1)/(pnfix_lag1)
+q_len=length(q_grow)
+plot(q_grow, ylab = "quartely growth rate")
+plot(q_grow, ylab = "quartely growth rate", type="l")
+ql0=q_grow[5:q_len]
+ql1=q_grow[4:(q_len-1)]
+ql2=q_grow[3:(q_len-2)]
+ql3=q_grow[2:(q_len-3)]
+ql4=q_grow[1:(q_len-4)]
+grrData <- data.frame(ql0, ql1, ql2, ql3, ql4)
+ql0
+result <- lm_robust(ql0~ql1+ql2+ql3+ql4, grrData)
+summary(result)
+rlt_for_NW<-lm(ql0~ql1+ql2+ql3+ql4, grrData)
+NW <- coeftest(result, vcov = NeweyWest(rlt_for_NW, lag = 5))
+NW
+NW
+(d)
+(e)
+irf=rep(0,14)
+irf[4]=1
+for (i in 5:14){
+i
+irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
+}
+irf
+plot(c(0:10), irf[4:14], type="l")
+plot(c(0:10), irf[4:14], type="l", ylab="irf")
+plot(c(0:10), irf[4:14], type="l", ylab="irf", xlab="")
+plot(c(0:10), irf[4:14], type="l", ylab="irf", xlab="Impulse Response Function")
+plot(c(0:10), irf[4:14], type="l", ylab="irf", xlab="Impulse Response")
+irf=rep(0,14)
+irf[4]=1
+for (i in 5:14){
+i
+irf[i]=result$coefficients[2]*irf[i-1]+result$coefficients[3]*irf[i-2]+result$coefficients[4]*irf[i-3]+result$coefficients[5]*irf[i-4]
+}
+irf
+plot(c(1:10), irf[5:14], type="l", ylab="irf", xlab="Impulse Response")
+data <- read.xlsx("PSS2017/PSS2017.xlsx")
+library(openxlsx)
+library(estimatr)
+library(lmtest)
+library(sandwich)
+library(plm)
+library(stats)
+library(aTSA)
+options(scipen=3)
+data <- read.xlsx("PSS2017/PSS2017.xlsx")
+data <- read.xlsx("PSS2017/PSS2017.xlsx")
+setwd(Home/econometrics/HW2)
+setwd(~/econometrics/HW2)
+setwd(/~/econometrics/HW2)
+setwd("~/econometrics/HW2")
+data <- read.xlsx("PSS2017/PSS2017.xlsx")
+alt_nls <- nls(
+log(EG_total) ~ beta + (v / rho) * log(alpha * EC_c_alt^rho + (1 - alpha) * EC_d_alt^rho),
+start = list(rho = 0.3, v = 1.0, alpha = 0.3, beta = 1.6),
+trace = TRUE,
+data = data
+)
+data$EC_c_alt_nm <- as.numeric(data$EC_c_alt)
+View(data)
+data$EC_d_alt_nm <- as.numeric(data$EC_d_alt)
+data$EG_total_nm <- as.numeric(data$EG_total)
+alt_nls <- nls(
+log(EG_total_nm) ~ beta + (v / rho) * log(alpha * EC_c_alt_nm^rho + (1 - alpha) * EC_d_alt_nm^rho),
+start = list(rho = 0.3, v = 1.0, alpha = 0.3, beta = 1.6),
+trace = TRUE,
+data = data
+)
+result <- alt_nls$convInfo
+coef(alt_nls)
+curve((1/4)*x^4, -4,4)
+View(data)
