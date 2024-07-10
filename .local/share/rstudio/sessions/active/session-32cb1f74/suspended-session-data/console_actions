@@ -3,12 +3,6 @@
         3,
         0,
         1,
-        3,
-        0,
-        1,
-        3,
-        0,
-        1,
         0,
         1,
         0,
@@ -1000,15 +994,15 @@
         0,
         1,
         0,
-        1
+        1,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
     ],
     "data": [
-        "Error in library(lmtest) : there is no package called ‘lmtest’\n",
-        "> ",
-        "library(sandwich)",
-        "Error in library(sandwich) : there is no package called ‘sandwich’\n",
-        "> ",
-        "library(plm)",
         "Error in library(plm) : there is no package called ‘plm’\n",
         "> ",
         "library(stats)",
@@ -2003,6 +1997,12 @@
         "> ",
         "curve((1/4)*x^4, -4,4)",
         "> ",
-        "View(data)"
+        "View(data)",
+        "Error in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file(file, \"wb\") :\n  cannot open file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/graphics-r3/e1aff452-074d-4a21-a89e-9f870e706aeb.snapshot': Permission denied\nGraphics error: Plot rendering error\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file(file, \"wb\") :\n  cannot open file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/graphic",
+        "s-r3/602c394e-dc3c-4014-b4eb-4cd653565d56.snapshot': Permission denied\nGraphics error: Plot rendering error\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file(file, \"wb\") :\n  cannot open file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/graphics-r3/c623c92a-0a30-4944-8bb3-7ccf7f5dbdd2.snapshot': Permission denied\nGraphics error: Plot rendering error\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file(f",
+        "ile, \"wb\") :\n  cannot open file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/graphics-r3/91a08049-5174-4c02-9976-26a694bdf952.snapshot': Permission denied\nGraphics error: Plot rendering error\nError saving session (rversion): No such file or directory\nError in file(file, \"wb\") : cannot open the connection\nError saving session (options): Error in file(file, \"wb\") : cannot open the connection\n\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file(f",
+        "ile, \"wb\") :\n  cannot open file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/suspended-session-data/environmentTmp': Permission denied\nError saving session (search_path): Error in file(file, \"wb\") : cannot open the connection\n\nError saving session (rversion): No such file or directory\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file.remove(outfile) :\n  cannot remove file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/s",
+        "uspended-session-data/environmentTmp', reason 'No such file or directory'\nError saving session (options): Error in file(file, \"wb\") : cannot open the connection\n\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file(file, \"wb\") :\n  cannot open file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/suspended-session-data/environmentTmp': Permission denied\nError saving session (search_path): Error in file(file, \"wb\") : cannot open the connection\n\nError",
+        " saving session (rversion): No such file or directory\nError in file(file, \"wb\") : cannot open the connection\nIn addition: Warning message:\nIn file.remove(outfile) :\n  cannot remove file '/home/rstudio/.local/share/rstudio/sessions/active/session-32cb1f74/suspended-session-data/environmentTmp', reason 'No such file or directory'\nError saving session (options): Error in file(file, \"wb\") : cannot open the connection\n\n"
     ]
 }
