@@ -1,59 +1,57 @@
 pacman::p_load(tidyverse, readxl, xtable, ivreg, gmm, modelsummary)
 
-# Load data
-ajr_df <- read_excel("AJR2001.xlsx")
+# import data
+ajr_dt <- read_excel("AJR2001.xlsx")
 
-# Prepare data
-ajr_df <- ajr_df %>% 
-  mutate(
-    logmortality = as.numeric(logmort0),
-    logmortality_sq = logmortality^2)
+# convert data format
+ajr_dt$logmrtl = as.numeric(ajr_dt$logmort0)
+ajr_dt$logmrtl_sq = as.numeric(ajr_dt$logmort0)^2
 
-# First Stage and F-stat
-fstg <- lm(risk ~ logmortality, data = ajr_df)
-fstg_sq <- lm(risk ~ logmortality + logmortality_sq, data = ajr_df)
+# 1st stage
+stg1 <- lm(risk ~ logmrtl, data = ajr_dt)
+stg1_sq <- lm(risk ~ logmrtl + logmrtl_sq, data = ajr_dt)
 
-msummary(list(fstg, fstg_sq), gof_map = c("nobs"), stars = TRUE)
+msummary(list(stg1, stg1_sq), gof_map = c("nobs"), stars = TRUE)
 
-fstat_fstg <- summary(fstg)$fstatistic[1]
-fstat_fstg_sq <- summary(fstg_sq)$fstatistic[1]
+fstat_stg1 <- summary(stg1)$fstatistic[1]
+fstat_stg1_sq <- summary(stg1_sq)$fstatistic[1]
 
-fstat_fstg
-fstat_fstg_sq
+fstat_stg1
+fstat_stg1_sq
 
 # 2SLS
-tsls <- ivreg(loggdp ~ risk | logmortality, data = ajr_df)
-tsls_sq <- ivreg(loggdp ~ risk | logmortality + logmortality_sq, data = ajr_df)
+tsls <- ivreg(loggdp ~ risk | logmrtl, data = ajr_dt)
+tsls_sq <- ivreg(loggdp ~ risk | logmrtl + logmrtl_sq, data = ajr_dt)
 
 msummary(list(tsls, tsls_sq), gof_map = c("nobs"), stars = TRUE)
 
-# Extract residuals from 2SLS
-tsls_resid <- residuals(tsls)
-tsls_sq_resid <- residuals(tsls_sq)
+# 2SLS resiguals
+tsls_rd <- residuals(tsls)
+tsls_sq_rd <- residuals(tsls_sq)
 
 # Compute weighting matrix for GMM using 2SLS residuals
-compute_weighting_matrix <- function(instrument_matrix, residuals) {
-  n <- nrow(instrument_matrix)
-  omega <- t(instrument_matrix) %*% diag(residuals^2) %*% instrument_matrix / n
-  weight_matrix <- solve(omega)
-  return(weight_matrix)
+effiMat <- function(ins_mat, residuals) {
+  n <- nrow(ins_mat)
+  omega <- t(ins_mat) %*% diag(residuals^2) %*% ins_mat / n
+  weight <- solve(omega)
+  return(weight)
 }
 
-instrument_matrix <- model.matrix(~ logmortality, data = ajr_df)
-instrument_matrix_sq <- model.matrix(~ logmortality + logmortality_sq, data = ajr_df)
+ins_mat <- model.matrix(~ logmrtl, data = ajr_dt)
+ins_mat_sq <- model.matrix(~ logmrtl + logmrtl_sq, data = ajr_dt)
 
-weight_matrix <- compute_weighting_matrix(instrument_matrix, tsls_resid)
-weight_matrix_sq <- compute_weighting_matrix(instrument_matrix_sq, tsls_sq_resid)
+weimat <- effiMat(ins_mat, tsls_rd)
+weimat_sq <- effiMat(ins_mat_sq, tsls_sq_rd)
 
 # GMM using 2SLS weighting matrix
-model_gmm <- gmm(loggdp ~ risk, ~logmortality, data = ajr_df,  weightsMatrix = weight_matrix)
-model_gmm_sq <- gmm(loggdp ~ risk, ~logmortality + logmortality_sq, data = ajr_df,  weightsMatrix = weight_matrix_sq)
+model_gmm <- gmm(loggdp ~ risk, ~logmrtl, data = ajr_dt,  weightsMatrix = weimat)
+model_gmm_sq <- gmm(loggdp ~ risk, ~logmrtl + logmrtl_sq, data = ajr_dt,  weightsMatrix = weimat_sq)
 
 # Results
 msummary(
   list("2SLS without square" = tsls, "GMM without square" = model_gmm, 
        "2SLS with square" = tsls_sq, "GMM with square" = model_gmm_sq), 
-  gof_map = c("nobs"), stars = TRUE, output = "latex")
+  gof_map = c("nobs"), stars = TRUE)
 
 # Summaries
 summary(model_gmm)

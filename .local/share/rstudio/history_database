@@ -337,3 +337,106 @@
 1719924555197:coef(alt_nls)
 1719924739561:curve((1/4)*x^4, -4,4)
 1719927803085:View(data)
+1720531504909:ajr_dt <- read_excel("AJR2001.xlsx")
+1720531508616:pacman::p_load(tidyverse, readxl, xtable, ivreg, gmm, modelsummary)
+1720531623936:# import data
+1720531623936:ajr_dt <- read_excel("AJR2001.xlsx")
+1720531713201:setwd("~/econometrics/HW3")
+1720531720275:# import data
+1720531720276:ajr_dt <- read_excel("AJR2001.xlsx")
+1720531722415:# convert data format
+1720531722415:ajr_dt$logmrtl = as.numeric(ajr_dt$logmort0)
+1720531723518:ajr_dt$logmrtl_sq = as.numeric(ajr_dt$logmort0)^2
+1720531724303:# 1st stage
+1720531724304:stg1 <- lm(risk ~ logmortality, data = ajr_dt)
+1720531725122:stg1_sq <- lm(risk ~ logmrtl + logmrtl_sq, data = ajr_dt)
+1720531734454:# import data
+1720531734454:ajr_dt <- read_excel("AJR2001.xlsx")
+1720531734974:# convert data format
+1720531734974:ajr_dt$logmrtl = as.numeric(ajr_dt$logmort0)
+1720531736292:ajr_dt$logmrtl_sq = as.numeric(ajr_dt$logmort0)^2
+1720531737501:# 1st stage
+1720531737502:stg1 <- lm(risk ~ logmrtl, data = ajr_dt)
+1720531738745:stg1_sq <- lm(risk ~ logmrtl + logmrtl_sq, data = ajr_dt)
+1720531739947:msummary(list(stg1, stg1_sq), gof_map = c("nobs"), stars = TRUE)
+1720531741226:fstat_stg1 <- summary(stg1)$fstatistic[1]
+1720531742338:fstat_stg1_sq <- summary(stg1_sq)$fstatistic[1]
+1720531743319:fstat_stg1
+1720531745840:fstat_stg1_sq
+1720531746958:# 2SLS
+1720531746959:tsls <- ivreg(loggdp ~ risk | logmrtl, data = ajr_dt)
+1720531748279:tsls_sq <- ivreg(loggdp ~ risk | logmrtl + logmrtl_sq, data = ajr_dt)
+1720531749428:msummary(list(tsls, tsls_sq), gof_map = c("nobs"), stars = TRUE)
+1720531751844:# Extract residuals from 2SLS
+1720531751845:tsls_rd <- residuals(tsls)
+1720531753388:tsls_sq_rd <- residuals(tsls_sq)
+1720531754457:# Compute weighting matrix for GMM using 2SLS residuals
+1720531754458:effiMat <- function(ins_mat, residuals) {
+1720531754458:n <- nrow(ins_mat)
+1720531754459:omega <- t(ins_mat) %*% diag(residuals^2) %*% ins_mat / n
+1720531754459:weight <- solve(omega)
+1720531754460:return(weight)
+1720531754460:}
+1720531755646:ins_mat <- model.matrix(~ logmrtl, data = ajr_dt)
+1720531757046:inst_mat_sq <- model.matrix(~ logmrtl + logmrtl_sq, data = ajr_dt)
+1720531759898:weimat <- effiMat(ins_mat, tsls_rd)
+1720531764364:weimat_sq <- effiMat(ins_mat_sq, tsls_sq_rd)
+1720531773914:ins_mat_sq <- model.matrix(~ logmrtl + logmrtl_sq, data = ajr_dt)
+1720531774757:weimat <- effiMat(ins_mat, tsls_rd)
+1720531775462:weimat_sq <- effiMat(ins_mat_sq, tsls_sq_rd)
+1720531776124:# GMM using 2SLS weighting matrix
+1720531776125:model_gmm <- gmm(loggdp ~ risk, ~logmrtl, data = ajr_dt,  weightsMatrix = weimat)
+1720531777029:model_gmm_sq <- gmm(loggdp ~ risk, ~logmrtl + logmrtl_sq, data = ajr_dt,  weightsMatrix = weimat_sq)
+1720531778162:# Results
+1720531778162:msummary(
+1720531778163:list("2SLS without square" = tsls, "GMM without square" = model_gmm,
+1720531778164:"2SLS with square" = tsls_sq, "GMM with square" = model_gmm_sq),
+1720531778164:gof_map = c("nobs"), stars = TRUE, output = "latex")
+1720531779202:# Summaries
+1720531779202:summary(model_gmm)
+1720531779772:summary(model_gmm_sq)
+1720531825287:# convert data format
+1720531825288:ajr_dt$logmrtl = as.numeric(ajr_dt$logmort0)
+1720531826266:ajr_dt$logmrtl_sq = as.numeric(ajr_dt$logmort0)^2
+1720531827084:# 1st stage
+1720531827084:stg1 <- lm(risk ~ logmrtl, data = ajr_dt)
+1720531827845:stg1_sq <- lm(risk ~ logmrtl + logmrtl_sq, data = ajr_dt)
+1720531828704:msummary(list(stg1, stg1_sq), gof_map = c("nobs"), stars = TRUE)
+1720531829804:fstat_stg1 <- summary(stg1)$fstatistic[1]
+1720531830820:fstat_stg1_sq <- summary(stg1_sq)$fstatistic[1]
+1720531831661:fstat_stg1
+1720531832342:fstat_stg1_sq
+1720531833013:# 2SLS
+1720531833013:tsls <- ivreg(loggdp ~ risk | logmrtl, data = ajr_dt)
+1720531833859:tsls_sq <- ivreg(loggdp ~ risk | logmrtl + logmrtl_sq, data = ajr_dt)
+1720531834655:msummary(list(tsls, tsls_sq), gof_map = c("nobs"), stars = TRUE)
+1720531835747:# Extract residuals from 2SLS
+1720531835748:tsls_rd <- residuals(tsls)
+1720531836610:tsls_sq_rd <- residuals(tsls_sq)
+1720531837427:# Compute weighting matrix for GMM using 2SLS residuals
+1720531837428:effiMat <- function(ins_mat, residuals) {
+1720531837429:n <- nrow(ins_mat)
+1720531837429:omega <- t(ins_mat) %*% diag(residuals^2) %*% ins_mat / n
+1720531837430:weight <- solve(omega)
+1720531837431:return(weight)
+1720531837431:}
+1720531838054:ins_mat <- model.matrix(~ logmrtl, data = ajr_dt)
+1720531838754:ins_mat_sq <- model.matrix(~ logmrtl + logmrtl_sq, data = ajr_dt)
+1720531839401:weimat <- effiMat(ins_mat, tsls_rd)
+1720531839805:weimat_sq <- effiMat(ins_mat_sq, tsls_sq_rd)
+1720531840413:# GMM using 2SLS weighting matrix
+1720531840414:model_gmm <- gmm(loggdp ~ risk, ~logmrtl, data = ajr_dt,  weightsMatrix = weimat)
+1720531840918:model_gmm_sq <- gmm(loggdp ~ risk, ~logmrtl + logmrtl_sq, data = ajr_dt,  weightsMatrix = weimat_sq)
+1720531841569:# Results
+1720531841570:msummary(
+1720531841570:list("2SLS without square" = tsls, "GMM without square" = model_gmm,
+1720531841571:"2SLS with square" = tsls_sq, "GMM with square" = model_gmm_sq),
+1720531841572:gof_map = c("nobs"), stars = TRUE, output = "markdown")
+1720531842396:# Summaries
+1720531842396:summary(model_gmm)
+1720531842921:summary(model_gmm_sq)
+1720532018863:# Results
+1720532018864:msummary(
+1720532018865:list("2SLS without square" = tsls, "GMM without square" = model_gmm,
+1720532018865:"2SLS with square" = tsls_sq, "GMM with square" = model_gmm_sq),
+1720532018866:gof_map = c("nobs"), stars = TRUE)
